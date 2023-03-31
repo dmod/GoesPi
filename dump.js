@@ -43,6 +43,6 @@ getAllImages = function (endpoint) {
 
 window.onload = function () {
 
-  getAllImages('images/goes16/fd/fc/2023-03-31/')
+  getAllImages('images/')
 
 };
