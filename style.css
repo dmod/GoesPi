@@ -1,0 +1,44 @@
+#controls-and-images {
+    width: 80%;
+    margin: 0 auto;
+
+    display: grid;
+    place-items: center;
+}
+
+#slider-trackbar-container {
+    grid-row: 1;
+}
+
+#slider-container {
+    grid-row: 2;
+}
+
+#slider-container img {
+    max-width: 100%;
+    display: none;
+}
+
+#slider-container img.active {
+    display: block;
+}
+
+#slider-container input[type="range"] {
+    width: 100%;
+}
+
+.slider-image-container {
+    position: relative;
+}
+
+.slider-image-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+    text-align: right;
+}
