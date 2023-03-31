@@ -1,51 +1,48 @@
-window.onload = function () {
-  // Get the slider container and trackbar elements
-  var sliderContainer = document.getElementById("slider-container");
-  var sliderTrackbar = document.getElementById("slider-trackbar");
+getAllImages = function (endpoint) {
 
-  // Get the directory listing and extract the image URLs
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'images/', true);
+  xhr.open('GET', endpoint, true);
   xhr.onload = function () {
-    // Extract the image URLs from the directory listing
-    var regex = /href="(.+\.jpg)"/g;
+
+    var imageRegex = /href="(.+\.jpg)"/g;
     var match;
     var imageList = [];
-    while ((match = regex.exec(xhr.responseText)) !== null) {
-      imageList.push('images/' + match[1]);
+    while ((match = imageRegex.exec(xhr.responseText)) !== null) {
+      imageList.push(endpoint + match[1]);
     }
 
-    // Preload and add the images to the slider container
-    for (var i = 0; i < imageList.length; i++) {
-      var container = document.createElement("div");
-      container.classList.add("slider-image-container");
-
-      var img = new Image();
-      img.src = imageList[i];
-      img.onload = (function (container, img, filename) {
-        return function () {
-          container.appendChild(img);
-
-          //var text = document.createElement("div");
-          //text.classList.add("slider-image-text");
-          //text.innerText = filename;
-          //container.appendChild(text);
-
-          sliderContainer.appendChild(container);
-          sliderTrackbar.max = imageList.length - 1;
-        }
-      })(container, img, imageList[i].split('/').pop());
+    var dirRegex = /href="(.+\/)"/g;
+    var match;
+    var dirList = [];
+    while ((match = dirRegex.exec(xhr.responseText)) !== null) {
+      dirList.push(match[1]);
     }
+
+    dirList = dirList.filter(image => image !== '../')
+
+    dirList.forEach(x => getAllImages(endpoint + x));
+
+    imageList.forEach(image => {
+
+      console.log(image)
+
+      var newHTMLImag = document.createElement('img');
+      newHTMLImag.src = image
+      newHTMLImag.width = 500
+      newHTMLImag.height = 500
+
+      document.getElementById('controls-and-images').appendChild(newHTMLImag);
+    }
+
+    )
+
   };
   xhr.send();
 
-  // Add event listener for the trackbar to update the active image
-  sliderTrackbar.addEventListener("input", function () {
-    var activeImage = sliderContainer.querySelector("img.active");
-    if (activeImage) {
-      activeImage.classList.remove("active");
-    }
-    var newActiveImage = sliderContainer.querySelectorAll("img")[this.value];
-    newActiveImage.classList.add("active");
-  });
+}
+
+window.onload = function () {
+
+  getAllImages('images/')
+
 };
