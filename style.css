@@ -6,11 +6,11 @@
     place-items: center;
 }
 
-#slider-trackbar-container {
+#slider-container {
     grid-row: 1;
 }
 
-#slider-container {
+#slider-trackbar-container {
     grid-row: 2;
 }
 
