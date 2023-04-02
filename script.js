@@ -23,9 +23,6 @@ window.onload = function () {
       var img = new Image();
       img.src = imageList[i];
 
-      img.width = 2712
-      img.height = 2712
-
       img.onload = (function (container, img, filename) {
         return function () {
           container.appendChild(img);
